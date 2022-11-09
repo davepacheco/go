@@ -237,6 +237,8 @@ retry:
 	var n uint32 = 1
 	r := port_getn(portfd, &events[0], uint32(len(events)), &n, wait)
 	e := errno()
+	KeepAlive(wait)
+	KeepAlive(ts)
 	if r < 0 && e == _ETIME && n > 0 {
 		// As per port_getn(3C), an ETIME failure does not preclude the
 		// delivery of some number of events.  Treat a timeout failure
