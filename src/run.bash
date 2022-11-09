@@ -30,7 +30,6 @@ export GOHOSTOS
 export CC
 
 # no core files, please
-ulimit -c 0
 
 # Raise soft limits to hard limits for NetBSD/OpenBSD.
 # We need at least 256 files and ~300 MB of bss.
