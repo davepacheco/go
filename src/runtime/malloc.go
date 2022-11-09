@@ -814,6 +814,17 @@ func (c *mcache) nextFree(spc spanClass) (v gclinkptr, s *mspan, shouldhelpgc bo
 		// The span is full.
 		if uintptr(s.allocCount) != s.nelems {
 			println("runtime: s.allocCount=", s.allocCount, "s.nelems=", s.nelems)
+			println("s.startAddr=", s.startAddr)
+			println("s.npages=", s.npages)
+			println("s.freeindex=", s.freeindex)
+			println("s.allocCache=", s.allocCache)
+			println("s.sweepgen=", s.sweepgen)
+			println("s.divMul=", s.divMul)
+			println("s.spanclass=", s.spanclass)
+			println("s.state=", s.state.get())
+			println("s.allocCountBeforeCache=", s.allocCountBeforeCache)
+			println("s.elemsize=", s.elemsize)
+			println("s.limit=", s.limit)
 			throw("s.allocCount != s.nelems && freeIndex == s.nelems")
 		}
 		c.refill(spc)

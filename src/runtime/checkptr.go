@@ -66,6 +66,12 @@ func checkptrArithmetic(p unsafe.Pointer, originals []unsafe.Pointer) {
 		}
 	}
 
+	println("checkptr: bad pointer=", uintptr(p))
+	println("checkptr: base=", base)
+	println("checkptr: originals")
+	for _, original := range originals {
+		println("checkptr: original=", original, "base=", checkptrBase(original))
+	}
 	throw("checkptr: pointer arithmetic result points to invalid allocation")
 }
 
