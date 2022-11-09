@@ -5,6 +5,9 @@
 
 # See golang.org/s/go15bootstrap for an overview of the build process.
 
+# XXX-dap
+export GO_GCFLAGS="-d=checkptr"
+
 # Environment variables that control make.bash:
 #
 # GOROOT_FINAL: The expected final Go root, baked into binaries.
