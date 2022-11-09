@@ -9,6 +9,21 @@ if [ ! -f make.bash ]; then
 	exit 1
 fi
 OLDPATH="$PATH"
+
+# XXX-dap: dump information about what we're running
+# We want this to go to stdout rather than stderr because that's where all the
+# other useful output from this script goes.
+echo "*** ENVIRONMENT INFORMATION ***"
+(
+    BASH_XTRACEFD=1;
+    set -o xtrace;
+    git describe --tags --dirty
+    git status
+    git clean -nxd
+    env
+)
+echo "*** END OF ENVIRONMENT ***"
+
 . ./make.bash "$@" --no-banner
 bash run.bash --no-rebuild
 PATH="$OLDPATH"
