@@ -8,6 +8,9 @@
 #include "go_asm.h"
 #include "textflag.h"
 
+DATA bad_ymm0_msg<>+0x00(SB)/31, $"dap: found corruption in ymm0!\n"
+GLOBL bad_ymm0_msg<>(SB), RODATA, $31
+
 // See memclrNoHeapPointers Go doc for important implementation constraints.
 
 // func memclrNoHeapPointers(ptr unsafe.Pointer, n uintptr)
@@ -83,6 +86,8 @@ loop_preheader_avx2:
 	CMPQ    BX, $0x2000000
 	JAE     loop_preheader_avx2_huge
 loop_avx2:
+	VPTEST 	Y0, Y0
+	JNZ 	boom
 	VMOVDQU	Y0, 0(DI)
 	VMOVDQU	Y0, 32(DI)
 	VMOVDQU	Y0, 64(DI)
@@ -97,6 +102,17 @@ loop_avx2:
 	VMOVDQU  Y0, -128(DI)(BX*1)
 	VZEROUPPER
 	RET
+
+boom:
+	// This is grossly unsafe, but we're about to abort.
+	MOVQ	$2, DI
+	MOVQ	$bad_ymm0_msg<>(SB), SI
+	MOVQ	$31, DX
+	CALL	runtime·write(SB)
+boom_loop:
+	CALL 	runtime·abort(SB)
+	JMP 	boom_loop
+
 loop_preheader_avx2_huge:
 	// Align to 32 byte boundary
 	VMOVDQU  Y0, 0(DI)
