@@ -110,7 +110,9 @@ boom:
 	MOVQ	$31, DX
 	CALL	runtime·write(SB)
 boom_loop:
-	CALL 	runtime·abort(SB)
+	// UD -- see https://go.dev/doc/asm "unsupported opcodes"
+	BYTE $0x0F;
+	BYTE $0xFF;
 	JMP 	boom_loop
 
 loop_preheader_avx2_huge:
