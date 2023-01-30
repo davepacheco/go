@@ -9,7 +9,7 @@ var sigtable = [...]sigTabT{
 	/* 1 */ {_SigNotify + _SigKill, "SIGHUP: hangup"},
 	/* 2 */ {_SigNotify + _SigKill, "SIGINT: interrupt (rubout)"},
 	/* 3 */ {_SigNotify + _SigThrow, "SIGQUIT: quit (ASCII FS)"},
-	/* 4 */ {_SigThrow + _SigUnblock, "SIGILL: illegal instruction (not reset when caught)"},
+	/* 4 */ {_SigDefault, "SIGILL: illegal instruction (not reset when caught)"},
 	/* 5 */ {_SigThrow + _SigUnblock, "SIGTRAP: trace trap (not reset when caught)"},
 	/* 6 */ {_SigNotify + _SigThrow, "SIGABRT: used by abort, replace SIGIOT in the future"},
 	/* 7 */ {_SigThrow, "SIGEMT: EMT instruction"},
